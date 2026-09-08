@@ -101,7 +101,7 @@
       sceneEl.addEventListener("arReady", function () {
         landing.style.display = "none";
         topbar.style.display = "block";
-        topStatus.textContent = "Aponte a câmera para o marcador de teste.";
+        topStatus.textContent = "Aponte a câmera para o esqueleto.";
       });
 
       sceneEl.addEventListener("arError", function () {
@@ -112,12 +112,34 @@
       });
 
       target.addEventListener("targetFound", function () {
-        topStatus.textContent = "Marcador reconhecido — mova o celular devagar.";
+        topStatus.textContent = "Esqueleto reconhecido — mova o celular devagar.";
+
+        // Reinicia a animação sempre que o alvo for reencontrado.
+        model.removeAttribute("animation__lift");
+        model.removeAttribute("animation__grow");
+
+        // Começa quase encostado no painel e ligeiramente menor.
+        model.setAttribute("position", "0 -0.05 0.02");
+        model.setAttribute("scale", "0.0115 0.0115 0.0115");
         model.setAttribute("visible", true);
+
+        // Dá um pequeno tempo para o navegador aplicar o estado inicial.
+        setTimeout(function () {
+          model.setAttribute(
+            "animation__lift",
+            "property: position; to: 0 -0.05 0.23; dur: 1500; easing: easeOutCubic"
+          );
+          model.setAttribute(
+            "animation__grow",
+            "property: scale; to: 0.014 0.014 0.014; dur: 1500; easing: easeOutCubic"
+          );
+        }, 60);
       });
 
       target.addEventListener("targetLost", function () {
-        topStatus.textContent = "Marcador perdido. Aponte novamente para a imagem.";
+        topStatus.textContent = "Aponte novamente para o esqueleto.";
+        model.removeAttribute("animation__lift");
+        model.removeAttribute("animation__grow");
         model.setAttribute("visible", false);
       });
 
@@ -165,7 +187,7 @@
 
   <div id="topbar">
     <div id="topTitle">SISTEMA ESQUELÉTICO — 3D</div>
-    <div id="topStatus">Aponte a câmera para o marcador.</div>
+    <div id="topStatus">Aponte a câmera para o esqueleto.</div>
   </div>
 
   <a-scene
@@ -190,9 +212,9 @@
         id="skeletonModel"
         src="#skeletonAsset"
         visible="false"
-        position="0 -0.05 0.10"
+        position="0 -0.05 0.02"
         rotation="0 0 90"
-        scale="0.014 0.014 0.014">
+        scale="0.0115 0.0115 0.0115">
       </a-gltf-model>
     </a-entity>
   </a-scene>
