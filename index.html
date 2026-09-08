@@ -13,33 +13,62 @@
       margin: 0; width: 100%; height: 100%; overflow: hidden;
       font-family: Arial, sans-serif; background: #111;
     }
+
     #landing {
       position: fixed; inset: 0; z-index: 9999;
       display: flex; align-items: center; justify-content: center;
       background: linear-gradient(180deg, #111, #1f1f1f);
       color: #fff; padding: 24px; box-sizing: border-box;
     }
+
     .card {
-      width: min(92vw, 520px); background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.14); border-radius: 22px;
-      padding: 24px; text-align: center; box-sizing: border-box;
+      width: min(92vw, 520px);
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 22px;
+      padding: 24px;
+      text-align: center;
+      box-sizing: border-box;
     }
+
     h1 { margin: 0 0 10px; font-size: 28px; }
     p { line-height: 1.45; opacity: .92; }
+
+    .browser-note {
+      margin: 18px 0 4px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.12);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .browser-note strong {
+      font-weight: 700;
+    }
+
     button {
-      margin-top: 12px; width: 100%; border: 0; border-radius: 14px;
+      margin-top: 14px; width: 100%; border: 0; border-radius: 14px;
       padding: 15px 18px; font-size: 17px; font-weight: 700; cursor: pointer;
     }
-    #status { margin-top: 14px; font-size: 14px; min-height: 42px; opacity: .9; }
+
+    #status {
+      margin-top: 14px; font-size: 14px; min-height: 42px; opacity: .9;
+    }
+
     #topbar {
       position: fixed; top: max(12px, env(safe-area-inset-top)); left: 50%;
       transform: translateX(-50%); z-index: 9000; display: none;
-      width: min(92vw, 560px); background: rgba(0,0,0,.67); color: white;
+      width: min(92vw, 560px);
+      background: rgba(0,0,0,.67); color: white;
       border-radius: 15px; padding: 10px 14px; box-sizing: border-box;
       text-align: center; pointer-events: none; backdrop-filter: blur(8px);
     }
+
     #topTitle { font-weight: 800; font-size: 18px; }
     #topStatus { margin-top: 4px; font-size: 13px; }
+
     a-scene {
       position: fixed !important; inset: 0 !important;
       width: 100% !important; height: 100% !important;
@@ -95,9 +124,11 @@
           status.textContent = "Aguarde alguns segundos: o sistema ainda está carregando.";
           return;
         }
+
         startBtn.disabled = true;
         startBtn.textContent = "ABRINDO CÂMERA...";
         status.textContent = "O navegador poderá pedir autorização para usar a câmera.";
+
         try {
           await arSystem.start();
         } catch (err) {
@@ -117,6 +148,13 @@
       <h1>SISTEMA ESQUELÉTICO — 3D</h1>
       <p>Experiência de realidade aumentada.</p>
       <p>Toque no botão abaixo, permita o acesso à câmera e depois aponte o celular para o marcador de teste.</p>
+
+      <div class="browser-note">
+        📱 <strong>Para uma melhor experiência</strong><br>
+        Recomendamos abrir esta página no <strong>Safari (iPhone)</strong> ou
+        <strong>Google Chrome (Android)</strong>.
+      </div>
+
       <button id="startBtn" disabled>CARREGANDO...</button>
       <div id="status">Preparando o sistema...</div>
     </div>
@@ -145,7 +183,6 @@
     <a-entity light="type: directional; intensity: 1.25" position="-1 2 2"></a-entity>
 
     <a-entity id="target" mindar-image-target="targetIndex: 0">
-      <!-- Correção V3: modelo girado 90° para ficar em pé sobre o marcador -->
       <a-gltf-model
         id="skeletonModel"
         src="#skeletonAsset"
