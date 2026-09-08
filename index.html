@@ -92,7 +92,8 @@
       sceneEl.addEventListener("loaded", function () {
         arSystem = sceneEl.systems["mindar-image-system"];
         sceneReady = true;
-        status.textContent = "Sistema carregado. Toque em “INICIAR CÂMERA”.";
+        status.textContent = "";
+        status.style.display = "none";
         startBtn.disabled = false;
         startBtn.textContent = "INICIAR CÂMERA";
       });
@@ -104,6 +105,7 @@
       });
 
       sceneEl.addEventListener("arError", function () {
+        status.style.display = "block";
         status.textContent = "Não foi possível iniciar a câmera. Verifique a permissão do navegador e tente novamente.";
         startBtn.disabled = false;
         startBtn.textContent = "TENTAR NOVAMENTE";
@@ -121,18 +123,21 @@
 
       startBtn.addEventListener("click", async function () {
         if (!sceneReady || !arSystem) {
+          status.style.display = "block";
           status.textContent = "Aguarde alguns segundos: o sistema ainda está carregando.";
           return;
         }
 
         startBtn.disabled = true;
         startBtn.textContent = "ABRINDO CÂMERA...";
-        status.textContent = "O navegador poderá pedir autorização para usar a câmera.";
+        status.style.display = "block";
+        status.textContent = "Permita o acesso à câmera para continuar.";
 
         try {
           await arSystem.start();
         } catch (err) {
           console.error(err);
+          status.style.display = "block";
           status.textContent = "Erro ao iniciar a câmera: " + (err?.message || "erro desconhecido");
           startBtn.disabled = false;
           startBtn.textContent = "TENTAR NOVAMENTE";
@@ -146,13 +151,11 @@
   <div id="landing">
     <div class="card">
       <h1>SISTEMA ESQUELÉTICO — 3D</h1>
-      <p>Experiência de realidade aumentada.</p>
-      <p>Toque no botão abaixo, permita o acesso à câmera e depois aponte o celular para o marcador de teste.</p>
+      <p>Toque no botão abaixo e aponte a câmera para o esqueleto.</p>
 
       <div class="browser-note">
-        📱 <strong>Para uma melhor experiência</strong><br>
-        Recomendamos abrir esta página no <strong>Safari (iPhone)</strong> ou
-        <strong>Google Chrome (Android)</strong>.
+        📱 <strong>Melhor experiência:</strong>
+        Safari no iPhone ou Google Chrome no Android.
       </div>
 
       <button id="startBtn" disabled>CARREGANDO...</button>
