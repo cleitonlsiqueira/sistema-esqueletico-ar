@@ -117,29 +117,36 @@
         // Reinicia a animação sempre que o alvo for reencontrado.
         model.removeAttribute("animation__lift");
         model.removeAttribute("animation__grow");
+        model.removeAttribute("animation__turn");
 
-        // Começa quase encostado no painel e ligeiramente menor.
-        model.setAttribute("position", "0 -0.05 0.02");
-        model.setAttribute("scale", "0.0115 0.0115 0.0115");
+        // Começa pequeno e praticamente colado ao painel.
+        model.setAttribute("position", "0 -0.05 0.01");
+        model.setAttribute("scale", "0.0055 0.0055 0.0055");
+        model.setAttribute("rotation", "0 -18 90");
         model.setAttribute("visible", true);
 
-        // Dá um pequeno tempo para o navegador aplicar o estado inicial.
+        // Movimento mais evidente: cresce, avança e gira levemente para revelar profundidade.
         setTimeout(function () {
           model.setAttribute(
             "animation__lift",
-            "property: position; to: 0 -0.05 0.23; dur: 1500; easing: easeOutCubic"
+            "property: position; to: 0 -0.05 0.48; dur: 2200; easing: easeOutCubic"
           );
           model.setAttribute(
             "animation__grow",
-            "property: scale; to: 0.014 0.014 0.014; dur: 1500; easing: easeOutCubic"
+            "property: scale; to: 0.014 0.014 0.014; dur: 2200; easing: easeOutBack"
           );
-        }, 60);
+          model.setAttribute(
+            "animation__turn",
+            "property: rotation; to: 0 0 90; dur: 2200; easing: easeOutCubic"
+          );
+        }, 80);
       });
 
       target.addEventListener("targetLost", function () {
         topStatus.textContent = "Aponte novamente para o esqueleto.";
         model.removeAttribute("animation__lift");
         model.removeAttribute("animation__grow");
+        model.removeAttribute("animation__turn");
         model.setAttribute("visible", false);
       });
 
@@ -212,9 +219,9 @@
         id="skeletonModel"
         src="#skeletonAsset"
         visible="false"
-        position="0 -0.05 0.02"
-        rotation="0 0 90"
-        scale="0.0115 0.0115 0.0115">
+        position="0 -0.05 0.01"
+        rotation="0 -18 90"
+        scale="0.0055 0.0055 0.0055">
       </a-gltf-model>
     </a-entity>
   </a-scene>
