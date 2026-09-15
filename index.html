@@ -98,6 +98,11 @@
       const topStatus = document.querySelector("#topStatus");
       const target = document.querySelector("#target");
       const model = document.querySelector("#skeletonModel");
+      const rotateHint = document.querySelector("#rotateHint");
+      let rotationEnabled = false;
+      let dragging = false;
+      let lastPointerX = 0;
+      let userRotationY = -10;
 
       let arSystem = null;
       let sceneReady = false;
@@ -152,9 +157,24 @@
             "property: rotation; to: 0 -10 0; dur: 2200; easing: easeOutCubic"
           );
         }, 450);
+
+        // Libera a rotação horizontal somente depois que a animação termina.
+        rotationEnabled = false;
+        rotateHint.style.display = "none";
+        setTimeout(function () {
+          rotationEnabled = true;
+          userRotationY = -10;
+          rotateHint.style.display = "block";
+          setTimeout(function () {
+            rotateHint.style.display = "none";
+          }, 5000);
+        }, 2750);
       });
 
       target.addEventListener("targetLost", function () {
+        rotationEnabled = false;
+        dragging = false;
+        rotateHint.style.display = "none";
         topStatus.textContent = "Aponte novamente para o painel.";
         model.removeAttribute("animation__lift");
         model.removeAttribute("animation__grow");
@@ -185,7 +205,35 @@
         }
       });
     });
-  </script>
+  
+      // Rotação 360° somente no eixo horizontal.
+      // Pointer Events funcionam com toque e mouse.
+      window.addEventListener("pointerdown", function (event) {
+        if (!rotationEnabled) return;
+        dragging = true;
+        lastPointerX = event.clientX;
+        rotateHint.style.display = "none";
+      });
+
+      window.addEventListener("pointermove", function (event) {
+        if (!rotationEnabled || !dragging) return;
+        const deltaX = event.clientX - lastPointerX;
+        lastPointerX = event.clientX;
+
+        // Sensibilidade: aproximadamente meio grau por pixel.
+        userRotationY += deltaX * 0.5;
+        model.removeAttribute("animation__turn");
+        model.setAttribute("rotation", `0 ${userRotationY} 0`);
+      });
+
+      function stopRotationDrag() {
+        dragging = false;
+      }
+
+      window.addEventListener("pointerup", stopRotationDrag);
+      window.addEventListener("pointercancel", stopRotationDrag);
+
+</script>
 </head>
 
 <body>
@@ -237,5 +285,23 @@
       </a-gltf-model>
     </a-entity>
   </a-scene>
+
+  <div id="rotateHint" style="
+    display:none;
+    position:fixed;
+    left:50%;
+    bottom:82px;
+    transform:translateX(-50%);
+    z-index:30;
+    background:rgba(0,0,0,.68);
+    color:white;
+    padding:10px 16px;
+    border-radius:22px;
+    font:600 14px Arial,sans-serif;
+    text-align:center;
+    white-space:nowrap;
+    pointer-events:none;
+  ">👆 Arraste para os lados para girar o esqueleto</div>
+
 </body>
 </html>
