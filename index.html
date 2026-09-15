@@ -11,7 +11,7 @@
   <style>
     html, body {
       margin: 0; width: 100%; height: 100%; overflow: hidden;
-      font-family: Arial, sans-serif; background: #111;
+      font-family: Arial, sans-serif; background: transparent;
     }
 
     #landing {
@@ -72,6 +72,19 @@
     a-scene {
       position: fixed !important; inset: 0 !important;
       width: 100% !important; height: 100% !important;
+      background: transparent !important;
+    }
+
+    .a-canvas {
+      background: transparent !important;
+    }
+
+    #mindar-video {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
     }
   </style>
 
@@ -101,7 +114,7 @@
       sceneEl.addEventListener("arReady", function () {
         landing.style.display = "none";
         topbar.style.display = "block";
-        topStatus.textContent = "Aponte a câmera para o esqueleto.";
+        topStatus.textContent = "Aponte a câmera para o painel.";
       });
 
       sceneEl.addEventListener("arError", function () {
@@ -122,7 +135,7 @@
         // Começa pequeno e praticamente colado ao painel.
         model.setAttribute("position", "0 -0.05 0.01");
         model.setAttribute("scale", "0.0055 0.0055 0.0055");
-        model.setAttribute("rotation", "0 -18 90");
+        model.setAttribute("rotation", "0 -18 0");
         model.setAttribute("visible", true);
 
         // Movimento mais evidente: cresce, avança e gira levemente para revelar profundidade.
@@ -137,7 +150,7 @@
           );
           model.setAttribute(
             "animation__turn",
-            "property: rotation; to: 0 0 90; dur: 2200; easing: easeOutCubic"
+            "property: rotation; to: 0 0 0; dur: 2200; easing: easeOutCubic"
           );
         }, 80);
       });
@@ -194,13 +207,13 @@
 
   <div id="topbar">
     <div id="topTitle">SISTEMA ESQUELÉTICO — 3D</div>
-    <div id="topStatus">Aponte a câmera para o esqueleto.</div>
+    <div id="topStatus">Aponte a câmera para o painel.</div>
   </div>
 
   <a-scene
     mindar-image="imageTargetSrc: ./assets/painel-sistema-esqueletico.mind; autoStart: false;"
     color-space="sRGB"
-    renderer="colorManagement: true; physicallyCorrectLights: true"
+    renderer="colorManagement: true; physicallyCorrectLights: true; alpha: true"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false"
     embedded>
@@ -220,7 +233,7 @@
         src="#skeletonAsset"
         visible="false"
         position="0 -0.05 0.01"
-        rotation="0 -18 90"
+        rotation="0 -18 0"
         scale="0.0055 0.0055 0.0055">
       </a-gltf-model>
     </a-entity>
