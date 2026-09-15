@@ -112,7 +112,7 @@
       });
 
       target.addEventListener("targetFound", function () {
-        topStatus.textContent = "Esqueleto reconhecido — mova o celular devagar.";
+        topStatus.textContent = "Painel reconhecido — mova o celular devagar.";
 
         // Reinicia a animação sempre que o alvo for reencontrado.
         model.removeAttribute("animation__lift");
@@ -143,7 +143,7 @@
       });
 
       target.addEventListener("targetLost", function () {
-        topStatus.textContent = "Aponte novamente para o esqueleto.";
+        topStatus.textContent = "Aponte novamente para o painel.";
         model.removeAttribute("animation__lift");
         model.removeAttribute("animation__grow");
         model.removeAttribute("animation__turn");
@@ -180,7 +180,7 @@
   <div id="landing">
     <div class="card">
       <h1>SISTEMA ESQUELÉTICO — 3D</h1>
-      <p>Toque no botão abaixo e aponte a câmera para o esqueleto.</p>
+      <p>Toque no botão abaixo e aponte a câmera para o painel.</p>
 
       <div class="browser-note">
         📱 <strong>Melhor experiência:</strong>
@@ -198,7 +198,7 @@
   </div>
 
   <a-scene
-    mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind; autoStart: false;"
+    mindar-image="imageTargetSrc: ./assets/painel-sistema-esqueletico.mind; autoStart: false;"
     color-space="sRGB"
     renderer="colorManagement: true; physicallyCorrectLights: true"
     vr-mode-ui="enabled: false"
