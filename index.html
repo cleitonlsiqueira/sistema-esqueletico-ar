@@ -133,8 +133,8 @@
         model.removeAttribute("animation__turn");
 
         // Começa pequeno e praticamente colado ao painel.
-        model.setAttribute("position", "0 -0.05 0.01");
-        model.setAttribute("scale", "0.0055 0.0055 0.0055");
+        model.setAttribute("position", "0 0.06 0.01");
+        model.setAttribute("scale", "0.0124 0.0124 0.0124");
         model.setAttribute("rotation", "0 -18 0");
         model.setAttribute("visible", true);
 
@@ -142,11 +142,11 @@
         setTimeout(function () {
           model.setAttribute(
             "animation__lift",
-            "property: position; to: 0 -0.05 0.48; dur: 2200; easing: easeOutCubic"
+            "property: position; to: 0 0.06 0.48; dur: 2200; easing: easeOutCubic"
           );
           model.setAttribute(
             "animation__grow",
-            "property: scale; to: 0.014 0.014 0.014; dur: 2200; easing: easeOutBack"
+            "property: scale; to: 0.017 0.017 0.017; dur: 2200; easing: easeOutBack"
           );
           model.setAttribute(
             "animation__turn",
@@ -232,9 +232,9 @@
         id="skeletonModel"
         src="#skeletonAsset"
         visible="false"
-        position="0 -0.05 0.01"
+        position="0 0.06 0.01"
         rotation="0 -18 0"
-        scale="0.0055 0.0055 0.0055">
+        scale="0.0124 0.0124 0.0124">
       </a-gltf-model>
     </a-entity>
   </a-scene>
