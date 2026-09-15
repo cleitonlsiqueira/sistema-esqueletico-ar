@@ -125,18 +125,33 @@
       });
 
       target.addEventListener("targetFound", function () {
-        topStatus.textContent = "Painel reconhecido — CALIBRAÇÃO V5.8";
+        topStatus.textContent = "Painel reconhecido — experiência 3D ativa.";
 
-        // V5.3: sem animação. O modelo fica preso ao plano do painel
-        // para permitir ajustar tamanho e posição com precisão.
         model.removeAttribute("animation__lift");
         model.removeAttribute("animation__grow");
         model.removeAttribute("animation__turn");
 
+        // Posição inicial calibrada e aprovada.
         model.setAttribute("position", "0.035 0.20 0.01");
         model.setAttribute("rotation", "0 0 0");
         model.setAttribute("scale", "0.029 0.029 0.029");
         model.setAttribute("visible", true);
+
+        // Depois de encaixar no painel, o esqueleto avança suavemente para a sala.
+        setTimeout(function () {
+          model.setAttribute(
+            "animation__lift",
+            "property: position; to: 0.035 0.20 0.42; dur: 2200; easing: easeOutCubic"
+          );
+          model.setAttribute(
+            "animation__grow",
+            "property: scale; to: 0.036 0.036 0.036; dur: 2200; easing: easeOutCubic"
+          );
+          model.setAttribute(
+            "animation__turn",
+            "property: rotation; to: 0 -10 0; dur: 2200; easing: easeOutCubic"
+          );
+        }, 450);
       });
 
       target.addEventListener("targetLost", function () {
