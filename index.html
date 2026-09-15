@@ -125,34 +125,18 @@
       });
 
       target.addEventListener("targetFound", function () {
-        topStatus.textContent = "Painel reconhecido — mova o celular devagar.";
+        topStatus.textContent = "Painel reconhecido — modo de calibração.";
 
-        // Reinicia a animação sempre que o alvo for reencontrado.
+        // V5.3: sem animação. O modelo fica preso ao plano do painel
+        // para permitir ajustar tamanho e posição com precisão.
         model.removeAttribute("animation__lift");
         model.removeAttribute("animation__grow");
         model.removeAttribute("animation__turn");
 
-        // Começa pequeno e praticamente colado ao painel.
-        model.setAttribute("position", "0 0.06 0.01");
-        model.setAttribute("scale", "0.0124 0.0124 0.0124");
-        model.setAttribute("rotation", "0 -18 0");
+        model.setAttribute("position", "0 0.18 0.01");
+        model.setAttribute("rotation", "0 0 0");
+        model.setAttribute("scale", "0.026 0.026 0.026");
         model.setAttribute("visible", true);
-
-        // Movimento mais evidente: cresce, avança e gira levemente para revelar profundidade.
-        setTimeout(function () {
-          model.setAttribute(
-            "animation__lift",
-            "property: position; to: 0 0.06 0.48; dur: 2200; easing: easeOutCubic"
-          );
-          model.setAttribute(
-            "animation__grow",
-            "property: scale; to: 0.017 0.017 0.017; dur: 2200; easing: easeOutBack"
-          );
-          model.setAttribute(
-            "animation__turn",
-            "property: rotation; to: 0 0 0; dur: 2200; easing: easeOutCubic"
-          );
-        }, 80);
       });
 
       target.addEventListener("targetLost", function () {
@@ -232,9 +216,9 @@
         id="skeletonModel"
         src="#skeletonAsset"
         visible="false"
-        position="0 0.06 0.01"
-        rotation="0 -18 0"
-        scale="0.0124 0.0124 0.0124">
+        position="0 0.18 0.01"
+        rotation="0 0 0"
+        scale="0.026 0.026 0.026">
       </a-gltf-model>
     </a-entity>
   </a-scene>
