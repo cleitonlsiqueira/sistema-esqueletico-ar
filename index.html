@@ -125,7 +125,7 @@
       });
 
       target.addEventListener("targetFound", function () {
-        topStatus.textContent = "Painel reconhecido — CALIBRAÇÃO V5.6";
+        topStatus.textContent = "Painel reconhecido — CALIBRAÇÃO V5.7";
 
         // V5.3: sem animação. O modelo fica preso ao plano do painel
         // para permitir ajustar tamanho e posição com precisão.
@@ -133,7 +133,7 @@
         model.removeAttribute("animation__grow");
         model.removeAttribute("animation__turn");
 
-        model.setAttribute("position", "0 0.31 0.01");
+        model.setAttribute("position", "0 0.20 0.01");
         model.setAttribute("rotation", "0 0 0");
         model.setAttribute("scale", "0.029 0.029 0.029");
         model.setAttribute("visible", true);
@@ -216,7 +216,7 @@
         id="skeletonModel"
         src="#skeletonAsset"
         visible="false"
-        position="0 0.31 0.01"
+        position="0 0.20 0.01"
         rotation="0 0 0"
         scale="0.029 0.029 0.029">
       </a-gltf-model>
