@@ -130,7 +130,7 @@
       });
 
       target.addEventListener("targetFound", function () {
-        topStatus.textContent = "Painel reconhecido — experiência 3D ativa — V6.2.";
+        topStatus.textContent = "Painel reconhecido — experiência 3D ativa — V6.3.";
 
         model.removeAttribute("animation__lift");
         model.removeAttribute("animation__grow");
@@ -206,14 +206,12 @@
           startBtn.textContent = "TENTAR NOVAMENTE";
         }
       });
-    });
-  
-      // Rotação 360° somente no eixo horizontal.
-      // Os eventos ficam presos ao canvas da cena para funcionar de forma confiável no celular.
-      const scene = document.querySelector("a-scene");
 
+      // Rotação horizontal 360°.
+      // IMPORTANTE: este código fica dentro do DOMContentLoaded para acessar
+      // model, rotationEnabled, rotateHint e demais variáveis corretamente.
       function getCanvas() {
-        return scene && scene.canvas ? scene.canvas : document.querySelector(".a-canvas");
+        return sceneEl.canvas || document.querySelector(".a-canvas");
       }
 
       function beginDrag(x) {
@@ -228,28 +226,28 @@
         if (!rotationEnabled || !dragging) return;
         const deltaX = x - lastPointerX;
         lastPointerX = x;
-        userRotationY += deltaX * 0.7;
+
+        userRotationY += deltaX * 0.75;
         model.setAttribute("rotation", `0 ${userRotationY} 0`);
       }
 
-      function stopRotationDrag() {
+      function endDrag() {
         dragging = false;
       }
 
       function installRotationControls() {
         const canvas = getCanvas();
         if (!canvas || canvas.dataset.rotationReady === "1") return;
-        canvas.dataset.rotationReady = "1";
 
-        // Permite o AR normalmente, mas durante o arraste evita que o navegador
-        // interprete o gesto como rolagem/navegação.
+        canvas.dataset.rotationReady = "1";
         canvas.style.touchAction = "none";
 
+        // Pointer Events: Safari moderno, Chrome e Android.
         canvas.addEventListener("pointerdown", function (event) {
           if (!rotationEnabled) return;
           event.preventDefault();
           beginDrag(event.clientX);
-          try { canvas.setPointerCapture(event.pointerId); } catch (e) {}
+          try { canvas.setPointerCapture(event.pointerId); } catch (_) {}
         }, { passive: false });
 
         canvas.addEventListener("pointermove", function (event) {
@@ -261,13 +259,13 @@
         canvas.addEventListener("pointerup", function (event) {
           if (!rotationEnabled) return;
           event.preventDefault();
-          stopRotationDrag();
-          try { canvas.releasePointerCapture(event.pointerId); } catch (e) {}
+          endDrag();
+          try { canvas.releasePointerCapture(event.pointerId); } catch (_) {}
         }, { passive: false });
 
-        canvas.addEventListener("pointercancel", stopRotationDrag);
+        canvas.addEventListener("pointercancel", endDrag);
 
-        // Fallback para Safari/iOS antigos.
+        // Fallback explícito para touch.
         canvas.addEventListener("touchstart", function (event) {
           if (!rotationEnabled || !event.touches.length) return;
           event.preventDefault();
@@ -280,12 +278,18 @@
           moveDrag(event.touches[0].clientX);
         }, { passive: false });
 
-        canvas.addEventListener("touchend", stopRotationDrag, { passive: false });
+        canvas.addEventListener("touchend", endDrag, { passive: false });
+        canvas.addEventListener("touchcancel", endDrag, { passive: false });
       }
 
-      scene.addEventListener("renderstart", installRotationControls);
-      setTimeout(installRotationControls, 1000);
-
+      // O canvas é criado pelo A-Frame depois do carregamento da cena.
+      sceneEl.addEventListener("renderstart", installRotationControls);
+      sceneEl.addEventListener("loaded", function () {
+        setTimeout(installRotationControls, 100);
+      });
+      setTimeout(installRotationControls, 1200);
+    });
+  
 </script>
 </head>
 
