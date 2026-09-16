@@ -130,7 +130,7 @@
       });
 
       target.addEventListener("targetFound", function () {
-        topStatus.textContent = "Painel reconhecido — experiência 3D ativa — V6.3.";
+        topStatus.textContent = "Painel reconhecido — experiência 3D ativa.";
 
         model.removeAttribute("animation__lift");
         model.removeAttribute("animation__grow");
@@ -297,7 +297,7 @@
   <div id="landing">
     <div class="card">
       <h1>SISTEMA ESQUELÉTICO — 3D</h1>
-      <p>Toque no botão abaixo e aponte a câmera para o painel.</p>
+      <p>Toque em INICIAR CÂMERA e aponte o celular para o painel.</p>
 
       <div class="browser-note">
         📱 <strong>Melhor experiência:</strong>
@@ -305,6 +305,18 @@
       </div>
 
       <button id="startBtn" disabled>CARREGANDO...</button>
+      
+      <div id="credits" style="
+        margin-top:14px;
+        font-size:12px;
+        line-height:1.4;
+        color:rgba(255,255,255,.72);
+        text-align:center;
+      ">
+        Modelo 3D: Human Skeleton 3D Model — Dinendra Neyo<br>
+        Licença: Creative Commons Attribution
+      </div>
+
       <div id="status">Preparando o sistema...</div>
     </div>
   </div>
@@ -358,7 +370,7 @@
     text-align:center;
     white-space:nowrap;
     pointer-events:none;
-  ">👆 Arraste para os lados para girar o esqueleto</div>
+  ">👆 Arraste para os lados e veja o esqueleto em 360°</div>
 
 </body>
 </html>
